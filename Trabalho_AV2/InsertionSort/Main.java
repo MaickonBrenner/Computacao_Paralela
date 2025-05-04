@@ -3,6 +3,8 @@ package Trabalho_AV2.InsertionSort;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 class InnerMain {
     private static final int[] Threads = {1, 2, 4, 8, 16};
@@ -19,11 +21,26 @@ class InnerMain {
             long serialTempoInicial = System.nanoTime();
             insertionSerial.insertionSort(arraySerial);
             long serialTempoFinal = System.nanoTime();
-            long tempo = calculaTempo(serialTempoInicial, serialTempoFinal);
+            long tempoSerial = calculaTempo(serialTempoInicial, serialTempoFinal);
 
-            arquivo.append(String.format("Serial,%d,%d,%d,%d,\n", arraySerial.length, 1, tempo/1000000, tempo));
+            arquivo.append(String.format("Serial,%d,%d,%d,%d,\n", arraySerial.length, 1, tempoSerial/1000000, tempoSerial));
 
             // Paralelo 
+            for (int numThreads : Threads) {
+                for (int tamanho : Tamanho_Problema) {
+                    int[] arrayParalelo = gerarArray(tamanho);
+                    ExecutorService executor = Executors.newFixedThreadPool(numThreads);
+
+                    long paraleloTempoInicial = System.nanoTime();
+                    insertionParalelo.iniciarInsertionSort(arrayParalelo);
+                    long paraleloTempoFinal = System.nanoTime();
+                    long tempoParalelo = calculaTempo(paraleloTempoInicial, paraleloTempoFinal);
+
+                    arquivo.append(String.format("Paralelo,%d,%d,%d,%d,\n", tamanho, numThreads, tempoParalelo/1000000, tempoParalelo));
+                }
+            }
+
+            System.out.println("Arquivo CSV gerado na raiz Trabalho_AV2!");
 
         } catch (IOException e) {
             e.printStackTrace();
