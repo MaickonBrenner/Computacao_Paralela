@@ -14,8 +14,17 @@ class InnerMain {
         try (FileWriter arquivo = new FileWriter("insertion_resultados.csv")) {
             arquivo.append("Tipo, Tamanho_Array, Threads, Tempo(ms), Tempo(ns)\n");
             
+            // Serial
+            int[] arraySerial = gerarArray(1000);
+            long serialTempoInicial = System.nanoTime();
+            insertionSerial.insertionSort(arraySerial);
+            long serialTempoFinal = System.nanoTime();
+            long tempo = calculaTempo(serialTempoInicial, serialTempoFinal);
 
-            
+            arquivo.append(String.format("Serial,%d,%d,%d,%d,\n", arraySerial.length, 1, tempo/1000000, tempo));
+
+            // Paralelo 
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -29,5 +38,10 @@ class InnerMain {
             array[i] = random.nextInt(1000);
         }
         return array;
+    }
+
+    private static long calculaTempo(long serialTempoInicial, long serialTempoFinal) {
+        long valor = serialTempoFinal - serialTempoInicial;
+        return valor;
     }
 }
