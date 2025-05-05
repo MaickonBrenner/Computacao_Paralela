@@ -32,7 +32,7 @@ class InnerMain {
                     ExecutorService executor = Executors.newFixedThreadPool(numThreads);
 
                     long paraleloTempoInicial = System.nanoTime();
-                    insertionParalelo.iniciarInsertionSort(arrayParalelo);
+                    insertionParalelo.insertionSort(arrayParalelo, executor);
                     long paraleloTempoFinal = System.nanoTime();
                     long tempoParalelo = calculaTempo(paraleloTempoInicial, paraleloTempoFinal);
 
