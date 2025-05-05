@@ -1,12 +1,17 @@
 package Trabalho_AV2.MergeSort;
 
 import java.util.Arrays;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
+import java.util.concurrent.RecursiveAction;
 
-public class MergeSortParalelo {
-	
-	public void mergeSort(int[] a, ExecutorService executor) {
+public class MergeSortParalelo extends RecursiveAction {
+	private final int[] a;
+
+	public MergeSortParalelo(int[] a) {
+		this.a = a;
+	}
+
+	@Override
+	protected void compute() { // mergeSort
 		if (a.length < 2) {
 			return;
 		}
@@ -14,22 +19,16 @@ public class MergeSortParalelo {
 		int mid = a.length / 2;
 		int[] left = Arrays.copyOfRange(a, 0, mid);
 		int[] right = Arrays.copyOfRange(a, mid, a.length);
-		
-		try {
-			Future<?> leftFuture = executor.submit(() -> mergeSort(left, executor));
-			Future<?> rightFuture = executor.submit(() -> mergeSort(right, executor));
-		
 
-			leftFuture.get();
-			rightFuture.get();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		MergeSortParalelo leftTask = new MergeSortParalelo(left);
+		MergeSortParalelo rightTask = new MergeSortParalelo(right);
 		
-		merge(a, left, right);
+		invokeAll(leftTask, rightTask);
+		
+		merge(left, right);
 	}
 	
-	private void merge(int[] a, int[] left, int[] right) {
+	private void merge(int[] left, int[] right) {
 		int i = 0, j = 0, k = 0;
 		
 		while (i < left.length && j < right.length) {

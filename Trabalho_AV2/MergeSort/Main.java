@@ -3,8 +3,7 @@ package Trabalho_AV2.MergeSort;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.Arrays;
 
 public class Main {
@@ -12,7 +11,7 @@ public class Main {
     private static final int[] Tamanho_Problema = {10, 50, 80, 100, 200};
     public static void main(String[] args) {
         MergeSortSerial mergeSerial = new MergeSortSerial();
-        MergeSortParalelo mergeParalelo = new MergeSortParalelo();
+        //MergeSortParalelo mergeParalelo = new MergeSortParalelo();
 
         try (FileWriter arquivo = new FileWriter("merge_resultados.csv")) {
             arquivo.append("Tipo,Tamanho_Array,Threads,Tempo(ms),Tempo(ns)\n");
@@ -35,16 +34,13 @@ public class Main {
 
                 int numThreads = Threads[num_sorteio];
 
-                ExecutorService executor = Executors.newFixedThreadPool(numThreads);
-
+                ForkJoinPool pool = new ForkJoinPool(numThreads);
                 long paraleloTempoInicial = System.nanoTime();
-                mergeParalelo.mergeSort(arrayParalelo, executor);
+                pool.invoke(new MergeSortParalelo(arrayParalelo));
                 long paraleloTempoFinal = System.nanoTime();
                 long tempoParalelo = calculaTempo(paraleloTempoInicial, paraleloTempoFinal);
 
-                executor.shutdown();
-        
-                System.out.println("Tamanho: " + tamanho + " | Número de Threads" + numThreads + " para o problema.");
+                System.out.println("Tamanho: " + tamanho + " | Número de Threads " + numThreads + " para o problema.");
 
                 arquivo.append(String.format("Paralelo,%d,%d,%d,%d,\n", tamanho, numThreads, tempoParalelo/1000000, tempoParalelo));
                 
