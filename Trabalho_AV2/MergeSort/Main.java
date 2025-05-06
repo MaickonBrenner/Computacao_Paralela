@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 public class Main {
     private static final int[] Threads = {2, 4, 8, 10, 16};
-    private static final int[] Tamanho_Problema = {10, 50, 80, 100, 200};
+    private static final int[] Tamanho_Problema = {1000, 5000, 10000, 20000, 50000};
     public static void main(String[] args) {
         MergeSortSerial mergeSerial = new MergeSortSerial();
         //MergeSortParalelo mergeParalelo = new MergeSortParalelo();
@@ -30,7 +30,7 @@ public class Main {
                 int num_sorteio = sortearTamanho(Tamanho_Problema);
                 int tamanho = Tamanho_Problema[num_sorteio];
                 int[] arrayParalelo = gerarArray(tamanho);
-                System.out.println("Array: " + Arrays.toString(arrayParalelo));
+                // System.out.println("Array: " + Arrays.toString(arrayParalelo));
 
                 int numThreads = Threads[num_sorteio];
 
@@ -40,7 +40,7 @@ public class Main {
                 long paraleloTempoFinal = System.nanoTime();
                 long tempoParalelo = calculaTempo(paraleloTempoInicial, paraleloTempoFinal);
 
-                System.out.println("Tamanho: " + tamanho + " | Número de Threads " + numThreads + " para o problema.");
+                // System.out.println("Tamanho: " + tamanho + " | Número de Threads " + numThreads + " para o problema.");
 
                 arquivo.append(String.format("Paralelo,%d,%d,%d,%d,\n", tamanho, numThreads, tempoParalelo/1000000, tempoParalelo));
                 
@@ -55,9 +55,9 @@ public class Main {
 
     private static int[] gerarArray(int tamanho) {
         Random random = new Random();
-        int[] array = new int[20];
-        for (int i = 0; i < 20; i++) {
-            array[i] = random.nextInt(tamanho);
+        int[] array = new int[tamanho];
+        for (int i = 0; i < tamanho; i++) {
+            array[i] = random.nextInt(1000);
         }
         return array;
     }

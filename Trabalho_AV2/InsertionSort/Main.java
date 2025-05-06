@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.Arrays;
 
 class InnerMain {
     private static final int[] Threads = {1, 2, 4, 8, 16};
@@ -25,19 +26,22 @@ class InnerMain {
 
             arquivo.append(String.format("Serial,%d,%d,%d,%d,\n", arraySerial.length, 1, tempoSerial/1000000, tempoSerial));
 
-            // Paralelo 
-            for (int numThreads : Threads) {
-                for (int tamanho : Tamanho_Problema) {
-                    int[] arrayParalelo = gerarArray(tamanho);
-                    ExecutorService executor = Executors.newFixedThreadPool(numThreads);
+            // Paralelo
+            for (int i = 0; i < 5; i++) {
+                int num_sorteio = sortearTamanho(Tamanho_Problema);
+                int tamanho = Tamanho_Problema[num_sorteio];
+                int[] arrayParalelo = gerarArray(tamanho);
+                // System.out.println("Array: " + Arrays.toString(arrayParalelo));
+                int numThreads = Threads[num_sorteio];
+                ExecutorService executor = Executors.newFixedThreadPool(numThreads);
 
-                    long paraleloTempoInicial = System.nanoTime();
-                    insertionParalelo.insertionSort(arrayParalelo, executor);
-                    long paraleloTempoFinal = System.nanoTime();
-                    long tempoParalelo = calculaTempo(paraleloTempoInicial, paraleloTempoFinal);
+                long paraleloTempoInicial = System.nanoTime();
+                insertionParalelo.insertionSort(arrayParalelo, executor);
+                long paraleloTempoFinal = System.nanoTime();
+                long tempoParalelo = calculaTempo(paraleloTempoInicial, paraleloTempoFinal);
 
-                    arquivo.append(String.format("Paralelo,%d,%d,%d,%d,\n", tamanho, numThreads, tempoParalelo/1000000, tempoParalelo));
-                }
+                arquivo.append(String.format("Paralelo,%d,%d,%d,%d,\n", tamanho, numThreads, tempoParalelo/1000000, tempoParalelo));
+                
             }
 
             System.out.println("Arquivo CSV gerado na raiz Trabalho_AV2!");
@@ -60,5 +64,11 @@ class InnerMain {
     private static long calculaTempo(long serialTempoInicial, long serialTempoFinal) {
         long valor = serialTempoFinal - serialTempoInicial;
         return valor;
+    }
+
+    private static int sortearTamanho(int[] valores) {
+        Random random = new Random();
+        int tamanho_sorteado = random.nextInt(valores.length);
+        return tamanho_sorteado;
     }
 }
