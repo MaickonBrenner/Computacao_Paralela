@@ -1,7 +1,0 @@
-Tipo, Tamanho_Array, Threads, Tempo(ms), Tempo(ns)
-Serial,1000,1,4,4988477,
-Paralelo,1000,1,32,32279303,
-Paralelo,50000,16,225,225986169,
-Paralelo,10000,4,27,27596202,
-Paralelo,20000,8,45,45020504,
-Paralelo,1000,1,1,1904504,
