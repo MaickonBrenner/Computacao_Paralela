@@ -16,7 +16,7 @@ import java.net.URL;
 import java.awt.image.BufferedImage;
 
 public class InterfacePrincipal extends JFrame {
-    private JButton btnStart, btnStopServer, btnInsertionSort;
+    private JButton btnStart, btnStopServer, btnInsertionSort, btnMergeSort;
     private Process serverProcess;
     
     public InterfacePrincipal() {
@@ -28,6 +28,7 @@ public class InterfacePrincipal extends JFrame {
         btnStart = new JButton("Iniciar Server");
         btnStopServer = new JButton("Encerrar Server");
         btnInsertionSort = new JButton("Iniciar InsertionSort");
+        btnMergeSort = new JButton("Iniciar MergeSort");
 
         btnStart.addActionListener(new ActionListener() {
             @Override
@@ -37,10 +38,12 @@ public class InterfacePrincipal extends JFrame {
         });
         btnStopServer.addActionListener(e -> encerrarServerPython());
         btnInsertionSort.addActionListener(e -> executarAlgoritmo("InsertionSort"));
+        btnMergeSort.addActionListener(e -> executarAlgoritmo("MergeSort"));
 
         add(btnStart);
         add(btnStopServer);
         add(btnInsertionSort);
+        add(btnMergeSort);
     }
 
     private void iniciarServerPython() {
@@ -101,7 +104,6 @@ public class InterfacePrincipal extends JFrame {
             }
             outputStream.flush();
     
-            // Fechar multipart
             writer.append("\r\n------WebKitFormBoundary--\r\n");
             writer.flush();
             writer.close();
@@ -110,7 +112,7 @@ public class InterfacePrincipal extends JFrame {
         
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 // try (InputStream in = connection.getInputStream()) {
-                //     Files.copy(in, Paths.get("grafico_recebido.png"));
+                //     Files.copy(in, Paths.get("grafico_" + nome + ".png"));
                 // }
                 JOptionPane.showMessageDialog(this, "Gráfico gerado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 BufferedImage image = ImageIO.read(connection.getInputStream());

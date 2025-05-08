@@ -10,9 +10,8 @@ public class Main {
     private static final int[] Tamanho_Problema = {1000, 5000, 10000, 20000, 50000};
     public static void main(String[] args) {
         MergeSortSerial mergeSerial = new MergeSortSerial();
-        //MergeSortParalelo mergeParalelo = new MergeSortParalelo();
 
-        try (FileWriter arquivo = new FileWriter("merge_resultados.csv")) {
+        try (FileWriter arquivo = new FileWriter("Trabalho_AV2/Resultados/MergeSort_resultados.csv")) {
             arquivo.append("Tipo,Tamanho_Array,Threads,Tempo(ms),Tempo(ns)\n");
 
             // Serial
@@ -41,7 +40,7 @@ public class Main {
                 
             }
 
-            System.out.println("Arquivo CSV gerado na raiz Trabalho_AV2!");
+            System.out.println("Arquivo CSV gerado na pasta Resultados!");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,11 +59,5 @@ public class Main {
     private static long calculaTempo(long serialTempoInicial, long serialTempoFinal) {
         long valor = serialTempoFinal - serialTempoInicial;
         return valor;
-    }
-
-    private static int sortearTamanho(int[] valores) {
-        Random random = new Random();
-        int tamanho_sorteado = random.nextInt(valores.length);
-        return tamanho_sorteado;
     }
 }
