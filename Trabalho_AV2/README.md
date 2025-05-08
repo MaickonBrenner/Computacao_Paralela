@@ -1,7 +1,7 @@
 # Paralelização de Algoritmos de Ordenação: Uma Análise Acerca do Desempenho do Serial VS Parelelo.
 
 ## Equipe Envolvida
-- Lucas Cardoso Xavier | 
+- Lucas Cardoso Xavier Santos | 2218942
 - Maickon Brenner Marques Brandão | 2224203
 
 ## Resumo
