@@ -4,7 +4,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
-import java.util.Arrays;
 
 public class Main {
     private static final int[] Threads = {2, 4, 8, 10, 16};
@@ -27,13 +26,9 @@ public class Main {
 
             // Paralelo 
             for (int i = 0; i < 5; i++) {
-                int num_sorteio = sortearTamanho(Tamanho_Problema);
-                int tamanho = Tamanho_Problema[num_sorteio];
+                int tamanho = Tamanho_Problema[i];
                 int[] arrayParalelo = gerarArray(tamanho);
-                // System.out.println("Array: " + Arrays.toString(arrayParalelo));
-
-                int numThreads = Threads[num_sorteio];
-
+                int numThreads = Threads[i];
                 ForkJoinPool pool = new ForkJoinPool(numThreads);
                 long paraleloTempoInicial = System.nanoTime();
                 pool.invoke(new MergeSortParalelo(arrayParalelo));

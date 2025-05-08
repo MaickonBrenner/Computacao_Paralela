@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.Arrays;
 
 class InnerMain {
     private static final int[] Threads = {1, 2, 4, 8, 16};
@@ -28,13 +27,10 @@ class InnerMain {
 
             // Paralelo
             for (int i = 0; i < 5; i++) {
-                int num_sorteio = sortearTamanho(Tamanho_Problema);
-                int tamanho = Tamanho_Problema[num_sorteio];
+                int tamanho = Tamanho_Problema[i];
                 int[] arrayParalelo = gerarArray(tamanho);
-                // System.out.println("Array: " + Arrays.toString(arrayParalelo));
-                int numThreads = Threads[num_sorteio];
+                int numThreads = Threads[i];
                 ExecutorService executor = Executors.newFixedThreadPool(numThreads);
-
                 long paraleloTempoInicial = System.nanoTime();
                 insertionParalelo.insertionSort(arrayParalelo, executor);
                 long paraleloTempoFinal = System.nanoTime();
