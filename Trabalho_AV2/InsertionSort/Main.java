@@ -6,14 +6,14 @@ import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-class InnerMain {
+class Main {
     private static final int[] Threads = {1, 2, 4, 8, 16};
     private static final int[] Tamanho_Problema = {1000, 5000, 10000, 20000, 50000};
     public static void main(String[] args) {
         InsertionSortSerial insertionSerial = new InsertionSortSerial();
         InsertionSortParalelo insertionParalelo = new InsertionSortParalelo();
 
-        try (FileWriter arquivo = new FileWriter("insertion_resultados.csv")) {
+        try (FileWriter arquivo = new FileWriter("Trabalho_AV2/Resultados/InsertionSort_resultados.csv")) {
             arquivo.append("Tipo, Tamanho_Array, Threads, Tempo(ms), Tempo(ns)\n");
             
             // Serial
