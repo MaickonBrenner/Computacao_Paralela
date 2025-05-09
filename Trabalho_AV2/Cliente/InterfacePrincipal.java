@@ -8,11 +8,14 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.awt.image.BufferedImage;
 
 public class InterfacePrincipal extends JFrame {
@@ -117,14 +120,16 @@ public class InterfacePrincipal extends JFrame {
             int responseCode = connection.getResponseCode();
         
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                // try (InputStream in = connection.getInputStream()) {
-                //     Files.copy(in, Paths.get("grafico_" + nome + ".png"));
-                // }
+                
                 JOptionPane.showMessageDialog(this, "Gráfico gerado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 BufferedImage image = ImageIO.read(connection.getInputStream());
                 JLabel label = new JLabel(new ImageIcon(image));
                 JOptionPane.showMessageDialog(null, label, "Gráfico " + nome, JOptionPane.PLAIN_MESSAGE);
-    
+                
+                try (InputStream in = connection.getInputStream()) {
+                    Files.copy(in, Paths.get("Trabalho_AV2/Resultados/grafico_" + nome + ".png"));
+                }
+
             } else {
                 JOptionPane.showMessageDialog(this, "Erro ao gerar gráfico! Código: " + responseCode, "Erro", JOptionPane.ERROR_MESSAGE);
             }
