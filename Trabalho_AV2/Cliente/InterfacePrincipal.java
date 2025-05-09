@@ -16,7 +16,7 @@ import java.net.URL;
 import java.awt.image.BufferedImage;
 
 public class InterfacePrincipal extends JFrame {
-    private JButton btnStart, btnStopServer, btnInsertionSort, btnMergeSort;
+    private JButton btnStart, btnStopServer, btnInsertionSort, btnMergeSort, btnBubbleSort, btnQuickSort;
     private Process serverProcess;
     
     public InterfacePrincipal() {
@@ -29,6 +29,8 @@ public class InterfacePrincipal extends JFrame {
         btnStopServer = new JButton("Encerrar Server");
         btnInsertionSort = new JButton("Iniciar InsertionSort");
         btnMergeSort = new JButton("Iniciar MergeSort");
+        btnBubbleSort = new JButton("Iniciar BubbleSort");
+        btnQuickSort = new JButton("Iniciar QuickSort");
 
         btnStart.addActionListener(new ActionListener() {
             @Override
@@ -39,11 +41,15 @@ public class InterfacePrincipal extends JFrame {
         btnStopServer.addActionListener(e -> encerrarServerPython());
         btnInsertionSort.addActionListener(e -> executarAlgoritmo("InsertionSort"));
         btnMergeSort.addActionListener(e -> executarAlgoritmo("MergeSort"));
+        btnBubbleSort.addActionListener(e -> executarAlgoritmo("BubbleSort"));
+        btnQuickSort.addActionListener(e -> executarAlgoritmo("QuickSort"));
 
         add(btnStart);
         add(btnStopServer);
         add(btnInsertionSort);
         add(btnMergeSort);
+        add(btnBubbleSort);
+        add(btnQuickSort);
     }
 
     private void iniciarServerPython() {
