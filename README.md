@@ -10,6 +10,11 @@ O presente projeto possui a finalidade de realizar a implementação dos algorit
 ## Introdução
 
 ## Metodologia
+Nesta etapa, define-se quais algoritmos de ordenação serão implementados e analisados. Para o presente trabalho, os algoritmos selecionados foram: Bubble Sort, Insertion Sort, Merge Sort e Quick Sort.
+
+Afim de garantir um ambiente adequado de experimentação, foi escolhida a linguagem de programação Java para elaboração e codificação destes algoritmos, juntamente com a integração de uma API desenvolvida em Python (criada pela própria equipe também), que recebe os arquivos CSV produzidos pelos algoritmos e por meio das bibliotecas NumPy e Matplotlib, geraram os gráficos necessários para realizar as análises para a pesquisa em questão. Para execução geral do projeto, foi desenvolvido um "Cliente", com interface gráfica simples através da biblioteca Swing (Imagem 01), que possui o papel de painel de controle da aplicação, realizando a inicialização e encerramento da API e botões para execução direta dos algoritmos citados. Ao final da execução do algoritmo escolhido, será apresentado o gráfico gerado, informando a relação entre a execução do algoritmo serial e paralelo, variando o tamanho do problema (no caso, o Array) e a quantidade de Threads para sua resolução.
+
+Vejamos agora como se decorreu o processo de criação e desenvolvimento em cada algoritmo.
 
 ### Bubble Sort
 
