@@ -32,6 +32,7 @@ Tendo em vista os resultados discutidos, nota-se a relevância da computação p
 
 ## Referências
 - CORMEN, T. Algoritmos - Teoria e Prática. 3. ed. [s.l.] GEN LTC, 10DC.
+- DEVMEDIA. Threads: paralelizando tarefas com os diferentes recursos do Java. Disponível em: https://www.devmedia.com.br/threads-paralelizando-tarefas-com-os-diferentes-recursos-do-java/34309.
 
 ## Anexos
 Link para o projeto na plataforma GitHub:
