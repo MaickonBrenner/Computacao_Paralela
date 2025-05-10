@@ -35,3 +35,5 @@ Link para o projeto na plataforma GitHub:
 [Link Direto](https://github.com/MaickonBrenner/Computacao_Paralela)
 
 Outra maneira: https://github.com/MaickonBrenner/Computacao_Paralela
+
+<img src="https://github.com/MaickonBrenner/Computacao_Paralela/Trabalho_AV2/Resultados/grafico_InsertionSort.png" alt="Gráfico Insertion Sort">
