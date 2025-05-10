@@ -36,4 +36,7 @@ Link para o projeto na plataforma GitHub:
 
 Outra maneira: https://github.com/MaickonBrenner/Computacao_Paralela
 
-<img src="https://github.com/MaickonBrenner/Computacao_Paralela/Trabalho_AV2/Resultados/grafico_InsertionSort.png" alt="Gráfico Insertion Sort">
+<img src="https://github.com/MaickonBrenner/Computacao_Paralela/tree/main/Trabalho_AV2/Resultados/grafico_BubbleSort.png" alt="Gráfico Bubble Sort">
+<img src="https://github.com/MaickonBrenner/Computacao_Paralela/tree/main/Trabalho_AV2/Resultados/grafico_InsertionSort.png" alt="Gráfico Insertion Sort">
+<img src="https://github.com/MaickonBrenner/Computacao_Paralela/tree/main/Trabalho_AV2/Resultados/grafico_MergeSort.png" alt="Gráfico Merge Sort">
+<img src="https://github.com/MaickonBrenner/Computacao_Paralela/tree/main/Trabalho_AV2/Resultados/grafico_QuickSort.png" alt="Gráfico Quick Sort">
