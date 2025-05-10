@@ -5,9 +5,10 @@
 - Maickon Brenner Marques Brandão | 2224203
 
 ## Resumo
-O presente projeto possui a finalidade de realizar a implementação dos algoritmos de ordenação de valores mais utilizados e compará-los com se
+Este projeto tem como objetivo comparar o desempenho de algoritmos de ordenação clássicos em suas versões sequenciais e paralelas, utilizando a linguagem Java. Foram implementados os algoritmos Bubble Sort, Insertion Sort, Merge Sort e Quick Sort, com técnicas de paralelização baseadas em ExecutorService e ForkJoinPool. As execuções foram realizadas com diferentes tamanhos de entrada e quantidades de threads, e os tempos de execução foram registrados em arquivos CSV para posterior análise estatística e visual por meio de gráficos. Este trabalho busca demonstrar os benefícios e limitações da computação paralela aplicada à ordenação de dados, contribuindo para a compreensão prática de como o paralelismo afeta o desempenho de algoritmos em ambientes multicore.
 
 ## Introdução
+Neste trabalho, são exploradas diferentes estratégias de ordenação através da implementação dos algoritmos Bubble Sort, Insertion Sort, Merge Sort e Quick Sort em versões sequenciais e paralelas. As implementações foram realizadas em Java, aproveitando ferramentas como ExecutorService e ForkJoinPool para execução multithread. Para facilitar a análise dos resultados, foi criada uma interface gráfica simples em Swing, integrando os algoritmos com uma API Python que gera gráficos a partir de arquivos CSV. Essa estrutura permitiu uma comparação visual e estatística do desempenho entre as versões, considerando variáveis como tamanho dos dados e número de threads utilizadas.
 
 ## Metodologia
 
