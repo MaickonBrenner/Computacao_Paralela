@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 
 class Main {
     private static final int[] Threads = {1, 2, 4, 8, 16};
-    private static final int[] Tamanho_Problema = {10000, 50000, 100000, 200000, 500000};
+    private static final int[] Tamanho_Problema = {1000, 5000, 10000, 20000, 50000};
     public static void main(String[] args) {
         InsertionSortSerial insertionSerial = new InsertionSortSerial();
         InsertionSortParalelo insertionParalelo = new InsertionSortParalelo();
