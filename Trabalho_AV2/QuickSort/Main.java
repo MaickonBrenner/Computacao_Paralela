@@ -16,13 +16,16 @@ public class Main {
             arquivo.append("Tipo,Tamanho_Array,Threads,Tempo(ms),Tempo(ns)\n");
 
             // Serial
-            int[] arraySerial = gerarArray(1000);
-            long tempoInicialSerial = System.nanoTime();
-            QuickSortSerial.sort(arraySerial, 0, arraySerial.length - 1);
-            long tempoFinalSerial = System.nanoTime();
-            long tempoSerial = calculaTempo(tempoInicialSerial, tempoFinalSerial);
-            arquivo.append(String.format("Serial,%d,%d,%d,%d,\n", arraySerial.length, 1, tempoSerial / 1_000_000, tempoSerial));
-
+            for (int i = 0; i < 5; i++) {
+                int tamanho = Tamanho_Problema[i];
+                int[] arraySerial = gerarArray(tamanho);
+                long tempoInicialSerial = System.nanoTime();
+                QuickSortSerial.sort(arraySerial, 0, arraySerial.length - 1);
+                long tempoFinalSerial = System.nanoTime();
+                long tempoSerial = calculaTempo(tempoInicialSerial, tempoFinalSerial);
+                arquivo.append(String.format("Serial,%d,%d,%d,%d,\n", arraySerial.length, 1, tempoSerial / 1_000_000, tempoSerial));    
+            }
+            
             // Paralelo
             for (int i = 0; i < 5; i++) {
                 int tamanho = Tamanho_Problema[i];

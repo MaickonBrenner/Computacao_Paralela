@@ -1,7 +1,7 @@
 package Trabalho_AV2.BubbleSort;
 
 public class BubbleSortSerial {
-    public static void sort(int[] arr) {
+    public void sort(int[] arr) {
         int n = arr.length;
         for (int i = 0; i < n; i++) {
             boolean swapped = false;

@@ -4,7 +4,7 @@ import java.util.concurrent.Executors;
 
 public class BubbleSortParalelo {
 
-    public static void parallelBubbleSort(int[] array, int numThreads) {
+    public void parallelBubbleSort(int[] array, int numThreads) {
         ExecutorService executor = Executors.newFixedThreadPool(numThreads);
         int n = array.length;
 

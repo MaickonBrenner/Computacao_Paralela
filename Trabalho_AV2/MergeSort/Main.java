@@ -7,7 +7,7 @@ import java.util.concurrent.ForkJoinPool;
 
 public class Main {
     private static final int[] Threads = {2, 4, 8, 10, 16};
-    private static final int[] Tamanho_Problema = {1000, 5000, 10000, 20000, 50000};
+    private static final int[] Tamanho_Problema = {10000, 50000, 100000, 200000, 500000};
     public static void main(String[] args) {
         MergeSortSerial mergeSerial = new MergeSortSerial();
 
@@ -15,14 +15,18 @@ public class Main {
             arquivo.append("Tipo,Tamanho_Array,Threads,Tempo(ms),Tempo(ns)\n");
 
             // Serial
-            int[] arraySerial = gerarArray(1000);
-            long serialTempoInicial = System.nanoTime();
-            mergeSerial.mergeSort(arraySerial, arraySerial.length);
-            long serialTempoFinal = System.nanoTime();
-            long tempoSerial = calculaTempo(serialTempoInicial, serialTempoFinal);
-
-            arquivo.append(String.format("Serial,%d,%d,%d,%d,\n", arraySerial.length, 1, tempoSerial/1000000, tempoSerial));
-
+            for (int i = 0; i < 5; i++) {
+                int tamanho = Tamanho_Problema[i];
+                int[] arraySerial = gerarArray(tamanho);
+                long serialTempoInicial = System.nanoTime();
+                mergeSerial.mergeSort(arraySerial, arraySerial.length);
+                long serialTempoFinal = System.nanoTime();
+                long tempoSerial = calculaTempo(serialTempoInicial, serialTempoFinal);
+    
+                arquivo.append(String.format("Serial,%d,%d,%d,%d,\n", arraySerial.length, 1, tempoSerial/1000000, tempoSerial));
+    
+            }
+            
             // Paralelo 
             for (int i = 0; i < 5; i++) {
                 int tamanho = Tamanho_Problema[i];

@@ -15,7 +15,9 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.awt.image.BufferedImage;
 
 public class InterfacePrincipal extends JFrame {
@@ -87,6 +89,20 @@ public class InterfacePrincipal extends JFrame {
         }
     }
 
+    public void copiarImagem(String nome) {
+    try {
+        Path origem = Paths.get("Trabalho_AV2/Resultados/grafico.png");
+        Path destino = Paths.get("Trabalho_AV2/Resultados/grafico_" + nome + ".png"); // Pasta destino
+
+        Files.copy(origem, destino, StandardCopyOption.REPLACE_EXISTING);
+        System.out.println("Imagem copiada com sucesso para: " + destino);
+        
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erro ao copiar a imagem!");
+        }
+    }
+
     private void enviarCSV(String nome) {
         try {
             File csvFile = new File("Trabalho_AV2/Resultados/" + nome + "_resultados.csv");
@@ -125,10 +141,8 @@ public class InterfacePrincipal extends JFrame {
                 BufferedImage image = ImageIO.read(connection.getInputStream());
                 JLabel label = new JLabel(new ImageIcon(image));
                 JOptionPane.showMessageDialog(null, label, "Gráfico " + nome, JOptionPane.PLAIN_MESSAGE);
-                
-                try (InputStream in = connection.getInputStream()) {
-                    Files.copy(in, Paths.get("Trabalho_AV2/Resultados/grafico_" + nome + ".png"));
-                }
+
+                copiarImagem(nome);
 
             } else {
                 JOptionPane.showMessageDialog(this, "Erro ao gerar gráfico! Código: " + responseCode, "Erro", JOptionPane.ERROR_MESSAGE);
