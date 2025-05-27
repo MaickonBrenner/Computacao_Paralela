@@ -3,14 +3,14 @@ package Trabalho_AV3.Principal;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class Contralador {
+public class Controlador {
     public void controle() {
-        String livro = "Trabalho_AV3/Amostras/DonQuixote-388208.txt";
+        String livro = "Amostras/DonQuixote-388208.txt";
         String palavra = "Sancho";
         SerialCPU serialCPU = new SerialCPU();
 
-        try (FileWriter arquivo = new FileWriter("Trabalho_AV3/Resultados/resultados.csv")) {
-            arquivo.append("Tipo, Tamanho, Tempo(ms)");
+        try (FileWriter arquivo = new FileWriter("Resultados/resultados.csv")) {
+            arquivo.append("Tipo, Ocorrencias, Tempo(ms) \n");
 
             // Serial CPU
             long serialCPUTempoInicial = System.currentTimeMillis();
@@ -18,15 +18,15 @@ public class Contralador {
             long serialCPUTempoFinal = System.currentTimeMillis();
             long tempoSerial = calculaTempo(serialCPUTempoInicial, serialCPUTempoFinal);
             System.out.println("SerialCPU: " + retorno + " ocorrências em " + tempoSerial + " ms");
-            arquivo.append(String.format("SerialCPU,%d,%d,\n", "Dom", tempoSerial));
+            arquivo.append(String.format("SerialCPU,%d,%d \n", retorno, tempoSerial));
 
             // Paralelo CPU
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 3; i++) {
                 
             }
 
             // Paralelo GPU (OpenCL)
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 3; i++) {
                 
             }
         
