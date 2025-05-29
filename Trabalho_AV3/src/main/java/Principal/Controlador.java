@@ -1,4 +1,5 @@
-package Trabalho_AV3.Principal;
+package Principal;
+
 
 import java.io.FileWriter;
 import java.io.IOException;

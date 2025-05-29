@@ -1,4 +1,4 @@
-package Trabalho_AV3.Principal;
+package Principal;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
