@@ -47,18 +47,6 @@ Dessa forma, a exploração de técnicas paralelas representa não apenas uma es
 
 ## Anexos
 Link para o projeto na plataforma GitHub:
-[Link Direto](https://github.com/MaickonBrenner/Computacao_Paralela)
+[Link Direto](https://github.com/MaickonBrenner/Computacao_Paralela/tree/main/Trabalho_AV3)
 
-Outra maneira: https://github.com/MaickonBrenner/Computacao_Paralela
-
-#### Imagem 01
-<img src="https://github.com/MaickonBrenner/Computacao_Paralela/tree/main/Trabalho_AV2/Resultados/grafico_BubbleSort.png" alt="Gráfico Bubble Sort">
-
-#### Imagem 02
-<img src="https://github.com/MaickonBrenner/Computacao_Paralela/tree/main/Trabalho_AV2/Resultados/grafico_InsertionSort.png" alt="Gráfico Insertion Sort">
-
-#### Imagem 03
-<img src="https://github.com/MaickonBrenner/Computacao_Paralela/tree/main/Trabalho_AV2/Resultados/grafico_MergeSort.png" alt="Gráfico Merge Sort">
-
-#### Imagem 04
-<img src="https://github.com/MaickonBrenner/Computacao_Paralela/tree/main/Trabalho_AV2/Resultados/grafico_QuickSort.png" alt="Gráfico Quick Sort">
+Outra maneira: https://github.com/MaickonBrenner/Computacao_Paralela/tree/main/Trabalho_AV3
