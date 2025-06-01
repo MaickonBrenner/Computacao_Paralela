@@ -10,9 +10,13 @@ public class Controlador {
 
         SerialCPU serialCPU = new SerialCPU();
         ParaleloCPU paraleloCPU = new ParaleloCPU();
+<<<<<<< Updated upstream
+=======
+        ParaleloGPU paraleloGPU = new ParaleloGPU();
+>>>>>>> Stashed changes
 
         try (FileWriter arquivo = new FileWriter("Resultados/resultados.csv")) {
-            arquivo.append("Tipo, Ocorrencias, Tempo(ms) \n");
+            arquivo.append("Categoria, Ocorrencias, Tempo(ms) \n");
 
             // Serial CPU
             long serialCPUTempoInicial = System.currentTimeMillis();
@@ -38,6 +42,8 @@ public class Controlador {
             }
 
             System.out.println("Arquivo CSV gerado na pasta Resultados!");
+            
+            processar();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,5 +52,11 @@ public class Controlador {
 
     private long calculaTempo(long TempoInicial, long TempoFinal) {
         return TempoFinal - TempoInicial;
+    }
+    
+    private void processar() {
+    	ProcessadorDados processador = new ProcessadorDados();
+    	String arquivo = "Resultados/resultados.csv";
+    	processador.lerArquivo(arquivo);
     }
 }

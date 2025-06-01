@@ -1,5 +1,9 @@
 Tipo, Ocorrencias, Tempo(ms) 
+<<<<<<< Updated upstream
 SerialCPU,988,111 
 ParaleloCPU,988,85 
 ParaleloCPU,988,58 
 ParaleloCPU,988,49 
+=======
+SerialCPU,988,493 
+>>>>>>> Stashed changes
