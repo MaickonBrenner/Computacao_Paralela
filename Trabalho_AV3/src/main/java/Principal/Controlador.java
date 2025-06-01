@@ -1,6 +1,5 @@
 package Principal;
 
-
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -8,7 +7,9 @@ public class Controlador {
     public void controle() {
         String livro = "Amostras/DonQuixote-388208.txt";
         String palavra = "Sancho";
+
         SerialCPU serialCPU = new SerialCPU();
+        ParaleloCPU paraleloCPU = new ParaleloCPU();
 
         try (FileWriter arquivo = new FileWriter("Resultados/resultados.csv")) {
             arquivo.append("Tipo, Ocorrencias, Tempo(ms) \n");
@@ -23,14 +24,19 @@ public class Controlador {
 
             // Paralelo CPU
             for (int i = 0; i < 3; i++) {
-                
+                long paraleloCPUTempoInicial = System.currentTimeMillis();
+                int resultadoParalelo = paraleloCPU.buscarPalavra(livro, palavra);
+                long paraleloCPUTempoFinal = System.currentTimeMillis();
+                long tempoParalelo = calculaTempo(paraleloCPUTempoInicial, paraleloCPUTempoFinal);
+                System.out.println("ParaleloCPU: " + resultadoParalelo + " ocorrências em " + tempoParalelo + " ms");
+                arquivo.append(String.format("ParaleloCPU,%d,%d \n", resultadoParalelo, tempoParalelo));
             }
 
             // Paralelo GPU (OpenCL)
             for (int i = 0; i < 3; i++) {
                 
             }
-        
+
             System.out.println("Arquivo CSV gerado na pasta Resultados!");
 
         } catch (IOException e) {
@@ -39,7 +45,6 @@ public class Controlador {
     }
 
     private long calculaTempo(long TempoInicial, long TempoFinal) {
-        long valor = TempoFinal - TempoInicial;
-        return valor;
+        return TempoFinal - TempoInicial;
     }
 }

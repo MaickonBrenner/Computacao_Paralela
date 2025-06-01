@@ -1,2 +1,5 @@
 Tipo, Ocorrencias, Tempo(ms) 
-SerialCPU,988,179 
+SerialCPU,988,111 
+ParaleloCPU,988,85 
+ParaleloCPU,988,58 
+ParaleloCPU,988,49 
