@@ -1,20 +1,34 @@
+.chart {
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 10px;
+    -fx-border-color: #ddd;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+}
+
 .chart-title {
-    -fx-font-size: 20px;
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: #0077cc;
+    -fx-fill: #333;
 }
 
-.default-color0.chart-series-line {
-    -fx-stroke: #ff5733; /* Vermelho para CPU */
-    -fx-stroke-width: 3px;
-}
-
-.default-color1.chart-series-line {
-    -fx-stroke: #33ff57; /* Verde para GPU */
-    -fx-stroke-width: 3px;
-}
-
-.chart-legend {
-    -fx-background-color: #eeeeee;
+.axis {
     -fx-font-size: 14px;
+    -fx-text-fill: #555;
+}
+
+.line-chart .chart-series-line {
+    -fx-stroke-width: 2px;
+}
+
+.line-chart .default-color0.chart-series-line {
+    -fx-stroke: #FF5722; /* Laranja */
+}
+
+.line-chart .default-color1.chart-series-line {
+    -fx-stroke: #4CAF50; /* Verde */
+}
+
+.line-chart .default-color2.chart-series-line {
+    -fx-stroke: #2196F3; /* Azul */
 }

@@ -2,6 +2,7 @@ package Principal;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 public class Controlador {
     public void controle() {
@@ -13,7 +14,7 @@ public class Controlador {
         ParaleloGPU paraleloGPU = new ParaleloGPU();
 
         try (FileWriter arquivo = new FileWriter("Resultados/resultados.csv")) {
-            arquivo.append("Categoria, Ocorrencias, Tempo(ms) \n");
+            arquivo.append("Categoria,Ocorrencias,Tempo(ms)\n");
 
             // Serial CPU
             long serialCPUTempoInicial = System.currentTimeMillis();
@@ -21,7 +22,7 @@ public class Controlador {
             long serialCPUTempoFinal = System.currentTimeMillis();
             long tempoSerial = calculaTempo(serialCPUTempoInicial, serialCPUTempoFinal);
             System.out.println("SerialCPU: " + resultadoSerialCPU + " ocorrências em " + tempoSerial + " ms");
-            arquivo.append(String.format("SerialCPU,%d,%d \n", resultadoSerialCPU, tempoSerial));
+            arquivo.append(String.format("SerialCPU,%d,%d\n", resultadoSerialCPU, tempoSerial));
 
             // Paralelo CPU
             for (int i = 0; i < 3; i++) {
@@ -30,14 +31,15 @@ public class Controlador {
                 long paraleloCPUTempoFinal = System.currentTimeMillis();
                 long tempoParalelo = calculaTempo(paraleloCPUTempoInicial, paraleloCPUTempoFinal);
                 System.out.println("ParaleloCPU: " + resultadoParaleloCPU + " ocorrências em " + tempoParalelo + " ms");
-                arquivo.append(String.format("ParaleloCPU,%d,%d \n", resultadoParaleloCPU, tempoParalelo));
+                arquivo.append(String.format("ParaleloCPU,%d,%d\n", resultadoParaleloCPU, tempoParalelo));
             }
 
             // Paralelo GPU (OpenCL)
             for (int i = 0; i < 3; i++) {
                 
             }
-
+            
+            arquivo.close();
             System.out.println("Arquivo CSV gerado na pasta Resultados!");
             
             processar();
@@ -53,10 +55,9 @@ public class Controlador {
     
     private void processar() {
     	ProcessadorDados processador = new ProcessadorDados();
-    	
     	String arquivo = "Resultados/resultados.csv";
     	processador.executar(arquivo);
     	System.out.println("Dados processados! Chamando gráfico...");
-    	Grafico.iniciarGrafico(processador.getDados(), processador.getOcorrencias());
+    	Grafico.iniciarGrafico(processador.getTempo(), processador.getOcorrencias());
     }
 }
