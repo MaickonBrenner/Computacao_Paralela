@@ -1,0 +1,20 @@
+.chart-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0077cc;
+}
+
+.default-color0.chart-series-line {
+    -fx-stroke: #ff5733; /* Vermelho para CPU */
+    -fx-stroke-width: 3px;
+}
+
+.default-color1.chart-series-line {
+    -fx-stroke: #33ff57; /* Verde para GPU */
+    -fx-stroke-width: 3px;
+}
+
+.chart-legend {
+    -fx-background-color: #eeeeee;
+    -fx-font-size: 14px;
+}

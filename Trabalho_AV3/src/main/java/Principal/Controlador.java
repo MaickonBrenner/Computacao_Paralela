@@ -10,30 +10,27 @@ public class Controlador {
 
         SerialCPU serialCPU = new SerialCPU();
         ParaleloCPU paraleloCPU = new ParaleloCPU();
-<<<<<<< Updated upstream
-=======
         ParaleloGPU paraleloGPU = new ParaleloGPU();
->>>>>>> Stashed changes
 
         try (FileWriter arquivo = new FileWriter("Resultados/resultados.csv")) {
             arquivo.append("Categoria, Ocorrencias, Tempo(ms) \n");
 
             // Serial CPU
             long serialCPUTempoInicial = System.currentTimeMillis();
-            int retorno = serialCPU.buscarPalavra(livro, palavra);
+            int resultadoSerialCPU = serialCPU.buscarPalavra(livro, palavra);
             long serialCPUTempoFinal = System.currentTimeMillis();
             long tempoSerial = calculaTempo(serialCPUTempoInicial, serialCPUTempoFinal);
-            System.out.println("SerialCPU: " + retorno + " ocorrências em " + tempoSerial + " ms");
-            arquivo.append(String.format("SerialCPU,%d,%d \n", retorno, tempoSerial));
+            System.out.println("SerialCPU: " + resultadoSerialCPU + " ocorrências em " + tempoSerial + " ms");
+            arquivo.append(String.format("SerialCPU,%d,%d \n", resultadoSerialCPU, tempoSerial));
 
             // Paralelo CPU
             for (int i = 0; i < 3; i++) {
                 long paraleloCPUTempoInicial = System.currentTimeMillis();
-                int resultadoParalelo = paraleloCPU.buscarPalavra(livro, palavra);
+                int resultadoParaleloCPU = paraleloCPU.buscarPalavra(livro, palavra);
                 long paraleloCPUTempoFinal = System.currentTimeMillis();
                 long tempoParalelo = calculaTempo(paraleloCPUTempoInicial, paraleloCPUTempoFinal);
-                System.out.println("ParaleloCPU: " + resultadoParalelo + " ocorrências em " + tempoParalelo + " ms");
-                arquivo.append(String.format("ParaleloCPU,%d,%d \n", resultadoParalelo, tempoParalelo));
+                System.out.println("ParaleloCPU: " + resultadoParaleloCPU + " ocorrências em " + tempoParalelo + " ms");
+                arquivo.append(String.format("ParaleloCPU,%d,%d \n", resultadoParaleloCPU, tempoParalelo));
             }
 
             // Paralelo GPU (OpenCL)
@@ -56,7 +53,10 @@ public class Controlador {
     
     private void processar() {
     	ProcessadorDados processador = new ProcessadorDados();
+    	
     	String arquivo = "Resultados/resultados.csv";
-    	processador.lerArquivo(arquivo);
+    	processador.executar(arquivo);
+    	System.out.println("Dados processados! Chamando gráfico...");
+    	Grafico.iniciarGrafico(processador.getDados(), processador.getOcorrencias());
     }
 }
