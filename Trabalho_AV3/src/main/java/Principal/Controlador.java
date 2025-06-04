@@ -8,6 +8,7 @@ public class Controlador {
     public void controle() {
         String livro = "Amostras/DonQuixote-388208.txt";
         String palavra = "Sancho";
+        String[] palavras = {"Sancho", "Quijote", "Rocinante"};
 
         SerialCPU serialCPU = new SerialCPU();
         ParaleloCPU paraleloCPU = new ParaleloCPU();
@@ -27,7 +28,7 @@ public class Controlador {
             // Paralelo CPU
             for (int i = 0; i < 3; i++) {
                 long paraleloCPUTempoInicial = System.currentTimeMillis();
-                int resultadoParaleloCPU = paraleloCPU.buscarPalavra(livro, palavra);
+                int resultadoParaleloCPU = paraleloCPU.buscarPalavra(livro, palavras[i]);
                 long paraleloCPUTempoFinal = System.currentTimeMillis();
                 long tempoParalelo = calculaTempo(paraleloCPUTempoInicial, paraleloCPUTempoFinal);
                 System.out.println("ParaleloCPU: " + resultadoParaleloCPU + " ocorrências em " + tempoParalelo + " ms");
@@ -36,7 +37,12 @@ public class Controlador {
 
             // Paralelo GPU (OpenCL)
             for (int i = 0; i < 3; i++) {
-                
+            	long paraleloGPUTempoInicial = System.currentTimeMillis();
+                int resultadoParaleloGPU = paraleloCPU.buscarPalavra(livro, palavras[i]);
+                long paraleloGPUTempoFinal = System.currentTimeMillis();
+                long tempoParalelo = calculaTempo(paraleloGPUTempoInicial, paraleloGPUTempoFinal);
+                System.out.println("ParaleloGPU: " + resultadoParaleloGPU + " ocorrências em " + tempoParalelo + " ms");
+                arquivo.append(String.format("ParaleloGPU,%d,%d\n", resultadoParaleloGPU, tempoParalelo));
             }
             
             arquivo.close();
@@ -58,6 +64,6 @@ public class Controlador {
     	String arquivo = "Resultados/resultados.csv";
     	processador.executar(arquivo);
     	System.out.println("Dados processados! Chamando gráfico...");
-    	Grafico.iniciarGrafico(processador.getTempo(), processador.getOcorrencias());
+    	Grafico.iniciarGrafico(processador.getOcorrencias(), processador.getTempo());
     }
 }

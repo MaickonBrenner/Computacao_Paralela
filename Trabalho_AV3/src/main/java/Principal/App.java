@@ -1,11 +1,10 @@
 package Principal;
 
 public class App {
+	private static String livro = "Amostras/DonQuixote-388208.txt";
+    private static String palavra = "Sancho";
 	public static void main(String[] args) {
 		
-//		ParaleloGPU cl = new ParaleloGPU();
-//		cl.processar();
-//		
 		Controlador co = new Controlador();
 		co.controle();
 	}
