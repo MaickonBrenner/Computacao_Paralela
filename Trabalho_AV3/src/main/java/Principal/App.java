@@ -110,11 +110,11 @@ public class App extends javax.swing.JFrame {
         
 	}
 	
-	private void btnDraActionPerformed(java.awt.event.ActionEvent evt) {
+	private void btnDomActionPerformed(java.awt.event.ActionEvent evt) {
 		Controlador co = new Controlador();
-		JOptionPane.showMessageDialog(null, "Iniciando processamento. Aguarde...");
+		JOptionPane.showMessageDialog(null, "Iniciando processamento. Aguarde...", "Informação", JOptionPane.INFORMATION_MESSAGE);
 		atualizarProgresso();
-		co.controle();
+		co.controle(1);
 		encerrar();
 	}
 	
@@ -122,15 +122,15 @@ public class App extends javax.swing.JFrame {
 		Controlador co = new Controlador();
 		JOptionPane.showMessageDialog(null, "Iniciando processamento. Aguarde...");
 		atualizarProgresso();
-		co.controle();
+		co.controle(2);
 		encerrar();
 	}
 	
-	private void btnDomActionPerformed(java.awt.event.ActionEvent evt) {
+	private void btnDraActionPerformed(java.awt.event.ActionEvent evt) {
 		Controlador co = new Controlador();
-		JOptionPane.showMessageDialog(null, "Iniciando processamento. Aguarde...", "Informação", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Iniciando processamento. Aguarde...");
 		atualizarProgresso();
-		co.controle();
+		co.controle(3);
 		encerrar();
 	}
 	

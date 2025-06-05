@@ -7,11 +7,27 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 public class Controlador {
-	private boolean finali = false;
-    public void controle() {
-        String livro = "Amostras/DonQuixote-388208.txt";
-        String[] palavras = {"Rocinante", "Quijote", "Sancho"};
-        
+	
+	private String livro = "";
+	private String[] palavras = {"", "", ""};
+	
+    public void controle(int escolha) {
+    	
+    	switch (escolha) {
+	    	case 1: 
+	    		livro = "Amostras/DonQuixote-388208.txt";
+	    		palavras = new String[]{"Rocinante", "Quijote", "Sancho"};
+	    		break;
+	    	case 2:
+	    		livro = "Amostras/MobyDick-217452.txt";
+	    		palavras = new String[]{"whale", "Ahab", "Moby"};
+	    		break;
+	    	case 3:
+	    		livro = "Amostras/Dracula-165307.txt";
+	    		palavras = new String[]{"Castle", "Transylvania", "Dracula"};
+	    		break;
+    	}
+       
         SerialCPU serialCPU = new SerialCPU();
         ParaleloCPU paraleloCPU = new ParaleloCPU();
         ParaleloGPU paraleloGPU = new ParaleloGPU();
@@ -43,7 +59,7 @@ public class Controlador {
             // Paralelo GPU (OpenCL)
             for (int i = 0; i < 3; i++) {
             	long paraleloGPUTempoInicial = System.currentTimeMillis();
-                int resultadoParaleloGPU = paraleloCPU.buscarPalavra(livro, palavras[i]);
+                int resultadoParaleloGPU = paraleloGPU.buscarPalavra(livro, palavras[i]);
                 long paraleloGPUTempoFinal = System.currentTimeMillis();
                 long tempoParalelo = calculaTempo(paraleloGPUTempoInicial, paraleloGPUTempoFinal);
                 System.out.println("ParaleloGPU: " + resultadoParaleloGPU + " ocorrências em " + tempoParalelo + " ms - Palavra: " + palavras[i]);
