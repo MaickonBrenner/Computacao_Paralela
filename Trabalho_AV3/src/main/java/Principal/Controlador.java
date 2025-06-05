@@ -4,12 +4,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public class Controlador {
+	private boolean finali = false;
     public void controle() {
         String livro = "Amostras/DonQuixote-388208.txt";
-        String palavra = "Sancho";
-        String[] palavras = {"Sancho", "Quijote", "Rocinante"};
-
+        String[] palavras = {"Rocinante", "Quijote", "Sancho"};
+        
         SerialCPU serialCPU = new SerialCPU();
         ParaleloCPU paraleloCPU = new ParaleloCPU();
         ParaleloGPU paraleloGPU = new ParaleloGPU();
@@ -18,20 +20,23 @@ public class Controlador {
             arquivo.append("Categoria,Ocorrencias,Tempo(ms)\n");
 
             // Serial CPU
-            long serialCPUTempoInicial = System.currentTimeMillis();
-            int resultadoSerialCPU = serialCPU.buscarPalavra(livro, palavra);
-            long serialCPUTempoFinal = System.currentTimeMillis();
-            long tempoSerial = calculaTempo(serialCPUTempoInicial, serialCPUTempoFinal);
-            System.out.println("SerialCPU: " + resultadoSerialCPU + " ocorrências em " + tempoSerial + " ms");
-            arquivo.append(String.format("SerialCPU,%d,%d\n", resultadoSerialCPU, tempoSerial));
+            for (int i = 0; i < 3; i++) {
+            	long serialCPUTempoInicial = System.currentTimeMillis();
+                int resultadoSerialCPU = serialCPU.buscarPalavra(livro, palavras[i]);
+                long serialCPUTempoFinal = System.currentTimeMillis();
+                long tempoSerial = calculaTempo(serialCPUTempoInicial, serialCPUTempoFinal);
+                System.out.println("SerialCPU: " + resultadoSerialCPU + " ocorrências em " + tempoSerial + " ms - Palavra: " + palavras[i]);
+                arquivo.append(String.format("SerialCPU,%d,%d\n", resultadoSerialCPU, tempoSerial));
 
+            }
+            
             // Paralelo CPU
             for (int i = 0; i < 3; i++) {
                 long paraleloCPUTempoInicial = System.currentTimeMillis();
                 int resultadoParaleloCPU = paraleloCPU.buscarPalavra(livro, palavras[i]);
                 long paraleloCPUTempoFinal = System.currentTimeMillis();
                 long tempoParalelo = calculaTempo(paraleloCPUTempoInicial, paraleloCPUTempoFinal);
-                System.out.println("ParaleloCPU: " + resultadoParaleloCPU + " ocorrências em " + tempoParalelo + " ms");
+                System.out.println("ParaleloCPU: " + resultadoParaleloCPU + " ocorrências em " + tempoParalelo + " ms - Palavra: " + palavras[i]);
                 arquivo.append(String.format("ParaleloCPU,%d,%d\n", resultadoParaleloCPU, tempoParalelo));
             }
 
@@ -41,7 +46,7 @@ public class Controlador {
                 int resultadoParaleloGPU = paraleloCPU.buscarPalavra(livro, palavras[i]);
                 long paraleloGPUTempoFinal = System.currentTimeMillis();
                 long tempoParalelo = calculaTempo(paraleloGPUTempoInicial, paraleloGPUTempoFinal);
-                System.out.println("ParaleloGPU: " + resultadoParaleloGPU + " ocorrências em " + tempoParalelo + " ms");
+                System.out.println("ParaleloGPU: " + resultadoParaleloGPU + " ocorrências em " + tempoParalelo + " ms - Palavra: " + palavras[i]);
                 arquivo.append(String.format("ParaleloGPU,%d,%d\n", resultadoParaleloGPU, tempoParalelo));
             }
             
@@ -64,6 +69,8 @@ public class Controlador {
     	String arquivo = "Resultados/resultados.csv";
     	processador.executar(arquivo);
     	System.out.println("Dados processados! Chamando gráfico...");
+    	JOptionPane.showMessageDialog(null, "Operação Concluída! Imprimindo Gráfico.");
     	Grafico.iniciarGrafico(processador.getOcorrencias(), processador.getTempo());
     }
+ 
 }
