@@ -71,7 +71,6 @@ Esses resultados reforçam a importância de escolher a abordagem adequada confo
 
 ## Referências
 
-Claro! Aqui está um complemento que você pode adicionar ao final do relatório, logo após a seção "Anexos", como uma seção chamada **"Instruções de Execução"**. Isso servirá como um tutorial simples para qualquer pessoa que deseje executar o projeto no Eclipse.
 
 ---
 
