@@ -31,8 +31,6 @@ Foram desenvolvidas três versões do algoritmo de contagem (ou busca) de palavr
 
 * **Versão Paralela com GPU (OpenCL):** O texto é tratado como um vetor contínuo de bytes. Os índices de início de cada linha são armazenados separadamente. Esse conteúdo é transferido para a memória da GPU, onde um *kernel* OpenCL é executado em paralelo. Cada instância do kernel verifica se a palavra está presente em uma linha específica. A implementação foi feita com a biblioteca JOCL (Java bindings para OpenCL).
 
-> **Destaque:** Enquanto as versões CPU operam com strings, a versão GPU realiza a busca com comparação direta de bytes, garantindo maior controle sobre o processamento em nível de hardware.
-
 ---
 
 ### Framework de Teste
