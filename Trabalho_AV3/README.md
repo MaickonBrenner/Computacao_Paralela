@@ -17,7 +17,7 @@ Com o crescimento dos volumes de dados processados por aplicações modernas, a 
 * **Paralela com CPU:** Utilizando `ExecutorService` com múltiplas threads para dividir o processamento do texto.
 * **Paralela com GPU:** Utilizando a biblioteca JOCL para executar kernels OpenCL que realizam a contagem de palavras de forma massivamente paralela.
 
-A proposta central é investigar como essas abordagens se comportam sob diferentes tamanhos de entrada, medindo o tempo de execução e identificando os limites e vantagens de cada método.
+A proposta central é comparar o desempenho e a escalabilidade das três abordagens de contagem de palavras — sequencial, paralela em CPU e paralela em GPU — utilizando conjuntos de dados de tamanhos variados, a fim de determinar qual técnica é mais eficiente em diferentes contextos de uso e identificar o impacto da paralelização no tempo de processamento.
 
 ## Metodologia
 
