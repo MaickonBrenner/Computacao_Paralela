@@ -98,7 +98,6 @@ public class ParaleloGPU {
         for (int i = 0; i < resultado.length; i++) {
             if (resultado[i] == 1) {
                 ocorrencias++;
-                System.out.println("Palavra encontrada na linha " + (i + 1));
             }
         }
 
@@ -148,7 +147,8 @@ public class ParaleloGPU {
 
     private static cl_device_id getDevice(cl_platform_id platform) {
         cl_device_id[] devices = new cl_device_id[1];
-        int result = CL.clGetDeviceIDs(platform, CL.CL_DEVICE_TYPE_GPU, 1, devices, null);
+//        int result = CL.clGetDeviceIDs(platform, CL.CL_DEVICE_TYPE_GPU, 1, devices, null);
+        int result = CL.clGetDeviceIDs(platform, CL.CL_DEVICE_TYPE_CPU, 1, devices, null);
         if (result != CL.CL_SUCCESS) {
             System.out.println("GPU não disponível. Tentando usar CPU...");
             result = CL.clGetDeviceIDs(platform, CL.CL_DEVICE_TYPE_CPU, 1, devices, null);

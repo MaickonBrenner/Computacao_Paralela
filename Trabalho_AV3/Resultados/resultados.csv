@@ -1,7 +1,10 @@
 Categoria,Ocorrencias,Tempo(ms)
-SerialCPU,74,351
-SerialCPU,968,358
-SerialCPU,988,108
-ParaleloCPU,74,107
-ParaleloCPU,968,64
-ParaleloCPU,988,91
+SerialCPU,74,254
+SerialCPU,968,190
+SerialCPU,988,47
+ParaleloCPU,74,43
+ParaleloCPU,968,36
+ParaleloCPU,988,30
+ParaleloGPU,174,374
+ParaleloGPU,1914,121
+ParaleloGPU,1867,119
