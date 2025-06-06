@@ -1,28 +1,13 @@
 package Principal;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.*;
 
 public class ParaleloCPU {
     private final int NUM_THREADS = Runtime.getRuntime().availableProcessors();
 
-    public int buscarPalavra(String arquivo, String palavra) {
-        List<String> linhas = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
-            String linha;
-            while ((linha = br.readLine()) != null) {
-                linhas.add(linha);
-            }
-        } catch (IOException e) {
-            System.err.println("Erro ao ler o arquivo: " + e.getMessage());
-            return 0;
-        }
-
+    public int buscarPalavra(List<String> linhas, String palavra) {
         ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
         List<Future<Integer>> resultados = new ArrayList<>();
 
@@ -47,6 +32,7 @@ public class ParaleloCPU {
 
             resultados.add(executor.submit(tarefa));
         }
+
         int total = 0;
         for (Future<Integer> futuro : resultados) {
             try {

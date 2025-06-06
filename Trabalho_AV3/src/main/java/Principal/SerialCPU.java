@@ -1,25 +1,17 @@
 package Principal;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.List;
 
 public class SerialCPU {
-    public int buscarPalavra(String arquivo, String palavra) {
+    public int buscarPalavra(List<String> linhas, String palavra) {
         int contador = 0;
-        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
-            String linha;
-            while((linha = br.readLine()) != null) {
-                String[] palavras = linha.split("\\s+");
-                for (String p : palavras) {
-                    if(p.equalsIgnoreCase(palavra)) {
-                        contador++;
-                    }
+        for (String linha : linhas) {
+            String[] palavras = linha.split("\\s+");
+            for (String p : palavras) {
+                if (p.equalsIgnoreCase(palavra)) {
+                    contador++;
                 }
             }
-            br.close();
-        } catch (IOException e) {
-            System.err.println("Erro na leitura do arquivo." + e.getMessage());
         }
         return contador;
     }

@@ -1,7 +1,11 @@
 package Principal;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -34,11 +38,13 @@ public class Controlador {
 
         try (FileWriter arquivo = new FileWriter("Resultados/resultados.csv")) {
             arquivo.append("Categoria,Ocorrencias,Tempo(ms)\n");
+            
+            List<String> livroFormatado = formatarArquivo(livro, 10);
 
             // Serial CPU
             for (int i = 0; i < 3; i++) {
             	long serialCPUTempoInicial = System.currentTimeMillis();
-                int resultadoSerialCPU = serialCPU.buscarPalavra(livro, palavras[i]);
+                int resultadoSerialCPU = serialCPU.buscarPalavra(livroFormatado, palavras[i]);
                 long serialCPUTempoFinal = System.currentTimeMillis();
                 long tempoSerial = calculaTempo(serialCPUTempoInicial, serialCPUTempoFinal);
                 System.out.println("SerialCPU: " + resultadoSerialCPU + " ocorrências em " + tempoSerial + " ms - Palavra: " + palavras[i]);
@@ -49,7 +55,7 @@ public class Controlador {
             // Paralelo CPU
             for (int i = 0; i < 3; i++) {
                 long paraleloCPUTempoInicial = System.currentTimeMillis();
-                int resultadoParaleloCPU = paraleloCPU.buscarPalavra(livro, palavras[i]);
+                int resultadoParaleloCPU = paraleloCPU.buscarPalavra(livroFormatado, palavras[i]);
                 long paraleloCPUTempoFinal = System.currentTimeMillis();
                 long tempoParalelo = calculaTempo(paraleloCPUTempoInicial, paraleloCPUTempoFinal);
                 System.out.println("ParaleloCPU: " + resultadoParaleloCPU + " ocorrências em " + tempoParalelo + " ms - Palavra: " + palavras[i]);
@@ -59,7 +65,7 @@ public class Controlador {
             // Paralelo GPU (OpenCL)
             for (int i = 0; i < 3; i++) {
             	long paraleloGPUTempoInicial = System.currentTimeMillis();
-                int resultadoParaleloGPU = paraleloGPU.buscarPalavra(livro, palavras[i]);
+                int resultadoParaleloGPU = paraleloGPU.buscarPalavra(livroFormatado, palavras[i]);
                 long paraleloGPUTempoFinal = System.currentTimeMillis();
                 long tempoParalelo = calculaTempo(paraleloGPUTempoInicial, paraleloGPUTempoFinal);
                 System.out.println("ParaleloGPU: " + resultadoParaleloGPU + " ocorrências em " + tempoParalelo + " ms - Palavra: " + palavras[i]);
@@ -88,5 +94,39 @@ public class Controlador {
     	JOptionPane.showMessageDialog(null, "Operação Concluída! Imprimindo Gráfico.");
     	Grafico.iniciarGrafico(processador.getOcorrencias(), processador.getTempo());
     }
- 
+    
+    public static List<String> formatarArquivo(String arquivo, int palavrasPorLinha) {
+        List<String> linhasFormatadas = new ArrayList<>();
+        StringBuilder linhaAtual = new StringBuilder();
+        int contadorPalavras = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo, StandardCharsets.UTF_8))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                String[] palavras = linha.split("\\s+"); // Divide por espaços
+                for (String palavra : palavras) {
+                    linhaAtual.append(palavra).append(" ");
+                    contadorPalavras++;
+
+                    if (contadorPalavras == palavrasPorLinha) {
+                        linhasFormatadas.add(linhaAtual.toString().trim());
+                        linhaAtual.setLength(0); // Limpa para a próxima linha
+                        contadorPalavras = 0;
+                    }
+                }
+            }
+            // Adiciona a última linha, caso tenha sobrado palavras
+            if (linhaAtual.length() > 0) {
+                linhasFormatadas.add(linhaAtual.toString().trim());
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao ler o arquivo: " + e.getMessage());
+        }
+
+        return linhasFormatadas;
+    }
+
 }
+    
+ 
+
