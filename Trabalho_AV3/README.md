@@ -53,14 +53,6 @@ Após cada execução, o tempo de processamento é salvo automaticamente em um a
 
 ---
 
-### Análise Estatística
-
-Os dados dos arquivos CSV foram utilizados para gerar gráficos e boxplots comparativos. Esses gráficos ajudam a identificar:
-
-* Ganhos reais de paralelismo;
-* Escalabilidade com o tamanho dos dados;
-* Eficiência de uso da CPU e GPU;
-* Ponto de inflexão onde o overhead supera os ganhos.
 
 ## Resultados e Discussão
 
