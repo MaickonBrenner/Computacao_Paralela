@@ -1,52 +1,88 @@
-# Paralelização de Algoritmos de Ordenação: Uma Análise Acerca do Desempenho do Serial VS Parelelo.
+# Comparação de Algoritmos de Contagem de Palavras: Serial, Paralelo com CPU e Paralelo com GPU
 
 ## Equipe Envolvida
-- Lucas Cardoso Xavier Santos | 2218942
-- Maickon Brenner Marques Brandão | 2224203
+
+* Lucas Cardoso Xavier Santos | 2218942
+* Maickon Brenner Marques Brandão | 2224203
 
 ## Resumo
-Este projeto tem como objetivo comparar o desempenho de algoritmos de ordenação clássicos em suas versões sequenciais e paralelas, utilizando a linguagem Java. Foram implementados os algoritmos Bubble Sort, Insertion Sort, Merge Sort e Quick Sort, com técnicas de paralelização baseadas em ExecutorService e ForkJoinPool. As execuções foram realizadas com diferentes tamanhos de entrada e quantidades de threads, e os tempos de execução foram registrados em arquivos CSV para posterior análise estatística e visual por meio de gráficos. Este trabalho busca demonstrar os benefícios e limitações da computação paralela aplicada à ordenação de dados, contribuindo para a compreensão prática de como o paralelismo afeta o desempenho de algoritmos em ambientes multicore.
+
+Este projeto tem como objetivo analisar e comparar o desempenho de três abordagens distintas para o problema de contagem de palavras: uma implementação sequencial, uma paralela com múltiplas threads em CPU, e uma versão que explora paralelismo em GPU utilizando a biblioteca JOCL (Java bindings for OpenCL). As implementações foram feitas em Java, com registros de desempenho armazenados em arquivos CSV e gráficos gerados via JavaFX. A análise visa compreender as vantagens e limitações de cada abordagem em diferentes cenários de carga de dados, destacando padrões de desempenho e situações ideais de uso para cada técnica.
 
 ## Introdução
-Neste trabalho, são exploradas diferentes estratégias de ordenação através da implementação dos algoritmos Bubble Sort, Insertion Sort, Merge Sort e Quick Sort em versões sequenciais e paralelas. As implementações foram realizadas em Java, aproveitando ferramentas como ExecutorService e ForkJoinPool para execução multithread. Para facilitar a análise dos resultados, foi criada uma interface gráfica simples em Swing, integrando os algoritmos com uma API Python que gera gráficos a partir de arquivos CSV. Essa estrutura permitiu uma comparação visual e estatística do desempenho entre as versões, considerando variáveis como tamanho dos dados e número de threads utilizadas.
+
+Com o crescimento dos volumes de dados processados por aplicações modernas, a eficiência dos algoritmos de processamento textual, como a contagem de palavras, torna-se cada vez mais relevante. Neste trabalho, três abordagens foram analisadas:
+
+* **Serial (Sequencial):** Implementação básica utilizando uma única thread.
+* **Paralela com CPU:** Utilizando `ExecutorService` com múltiplas threads para dividir o processamento do texto.
+* **Paralela com GPU:** Utilizando a biblioteca JOCL para executar kernels OpenCL que realizam a contagem de palavras de forma massivamente paralela.
+
+A proposta central é investigar como essas abordagens se comportam sob diferentes tamanhos de entrada, medindo o tempo de execução e identificando os limites e vantagens de cada método.
 
 ## Metodologia
-Nesta etapa, define-se quais algoritmos de ordenação serão implementados e analisados. Para o presente trabalho, os algoritmos selecionados foram: Bubble Sort, Insertion Sort, Merge Sort e Quick Sort.
 
-Afim de garantir um ambiente adequado de experimentação, foi escolhida a linguagem de programação Java para elaboração e codificação destes algoritmos, juntamente com a integração de uma API desenvolvida em Python (criada pela própria equipe também), que recebe os arquivos CSV produzidos pelos algoritmos e por meio das bibliotecas NumPy e Matplotlib, geraram os gráficos necessários para realizar as análises para a pesquisa em questão. Para execução geral do projeto, foi desenvolvido um "Cliente", com interface gráfica simples através da biblioteca Swing, que possui o papel de painel de controle da aplicação, realizando a inicialização e encerramento da API e botões para execução direta dos algoritmos citados. Ao final da execução do algoritmo escolhido, será apresentado o gráfico gerado, informando a relação entre a execução do algoritmo serial e paralelo, variando o tamanho do problema (no caso, o Array) e a quantidade de Threads para sua resolução.
+### Implementação de Algoritmos
 
-Vejamos agora como se decorreu o processo de criação e desenvolvimento em cada algoritmo.
+Foram desenvolvidas três versões do algoritmo de contagem (ou busca) de palavras:
 
-### Bubble Sort
-O Bubble Sort é um algoritmo simples que compara e troca elementos vizinhos para ordenar um array. Na versão paralela, utilizamos ExecutorService para executar várias partes do algoritmo simultaneamente, distribuindo as iterações entre threads.
+* **Versão Sequencial:** Lê o texto linha por linha, contando as ocorrências da palavra-alvo em cada linha de forma direta, utilizando abordagens tradicionais com `String` e laços de repetição.
 
-### Insertion Sort
-O Insertion Sort ou algoritmo de ordenação por inserção é um modelo simples para ordenar listas de valores. Para sua implementação paralela, foi utilizado o **Executor Service**, sendo um melhor indicado para essa solução, isso devido a sua natureza que tem um comportamento sequencial e depende fortemente da ordem dos elementos adjacentes, o que dificulta sua paralelização eficiente, logo, ao invés de tentar paralelizar cada inserção de elementos, divide-se o array em múltiplas partes e depois ordena cada uma separadamente antes de combiná-las ao final do processo.
+* **Versão Paralela com CPU:** Divide o texto em linhas e atribui blocos de linhas a múltiplas threads utilizando `ExecutorService`. Cada thread processa seu conjunto de linhas de forma independente e os resultados são combinados ao final. Essa abordagem aproveita o paralelismo em sistemas multicore.
 
-### Merge Sort
-O Merge Sort é um algoritmo de ordenação que parte do princípio de "dividir para conquistar", ou seja, ele recebe um problema e divide em duas partes, que irão sendo resolvidas recursivamente até o conjunto de valores de entrada esteja ordenados corretamente e no fim combinando ambas as partes. Para sua implementação paralela, foi utilizado o **ForkJoinPool**, sendo uma excelente opção devido o Merge Sort ser naturalmente adequado para paralelização, facilitando a utilização de múltiplos threads.
+* **Versão Paralela com GPU (OpenCL):** O texto é tratado como um vetor contínuo de bytes. Os índices de início de cada linha são armazenados separadamente. Esse conteúdo é transferido para a memória da GPU, onde um *kernel* OpenCL é executado em paralelo. Cada instância do kernel verifica se a palavra está presente em uma linha específica. A implementação foi feita com a biblioteca JOCL (Java bindings para OpenCL).
 
-### Quick Sort
-O Quick Sort é um algoritmo eficiente que divide o array em partes menores e as ordena. Na versão paralela, utilizamos ForkJoinPool, que permite executar chamadas recursivas em paralelo com múltiplas threads.
+---
+
+### Framework de Teste
+
+Um sistema de testes foi desenvolvido com interface gráfica em JavaFX. A aplicação permite:
+
+* Visualizar os arquivos de texto disponíveis diretamente na interface;
+* Executar automaticamente a busca por palavras-chave pré-definidas;
+* Ver os resultados (ocorrências e tempos) exibidos em tempo real para cada algoritmo e gráfico.
+
+
+---
+
+### Registro de Dados
+
+Após cada execução, o tempo de processamento é salvo automaticamente em um arquivo `.csv`, com informações como:
+
+* A quantidade de ocorrências encontradas de cada palavra;
+* O tempo total de execução para cada algoritmo e palavra.
+
+---
+
+### Análise Estatística
+
+Os dados dos arquivos CSV foram utilizados para gerar gráficos e boxplots comparativos. Esses gráficos ajudam a identificar:
+
+* Ganhos reais de paralelismo;
+* Escalabilidade com o tamanho dos dados;
+* Eficiência de uso da CPU e GPU;
+* Ponto de inflexão onde o overhead supera os ganhos.
 
 ## Resultados e Discussão
-Analisando os resultados obtidos com a execução dos algoritmos, 
 
-Nos algoritmos Bubble Sort (Imagem 01) e Insertion Sort (Imagem 02), tiverem um ganho significativo em perfomance, diminuindo bastante o tempo de execução em relação as versões sequenciais.
+A seguir, discutimos os resultados com base nos tempos de execução coletados:
 
-Agora nos algoritmos MergeSort (Imagem 03) e QuickSort (Imagem 04), ocorrerem situações bastante semelhantes, onde iniciamente as suas respectivas versão sequencias eram dominantes em relação ao tempo de execução, neste caso, visualizamos uma perspectiva onde o problema é "pequeno demais" para ser paralelizado, onde apenas a versão serial daria de conta. Todavia, isso acaba gerando o overhead na versão paralela, ou seja, um custo adicional no algoritmo, no entando a medida em foi-se aumentando o tamanho do Array e a quantidade de Threads fornecidas para as versões paralelas, o cenário foi mudando significativamente, reduzindo bastante o tempo para a ordenação. Outro fato curioso foi que a medida que o número de Threads chegava perto de 16, estes algoritmos acabavam não tendo o resultado tão satisfatório. No MergeSort, a quantidade mais estável com melhor tempo de execução foi em 4 Threads, já para o QuickSort, estabilizou entre 4 à 8 Threads.
+* **Serial:** Apresentou bom desempenho para arquivos pequenos, mas não escalou bem com o aumento do volume de dados, resultando em tempos altos para arquivos grandes.
+* **Paralela com CPU:** Demonstrou melhora significativa no tempo de execução à medida que o número de threads aumentava (até um certo ponto), especialmente para arquivos médios e grandes.
+* **Paralela com GPU:** Obteve os menores tempos de execução nos cenários com arquivos grandes, evidenciando a vantagem do paralelismo massivo. No entanto, para arquivos pequenos, o overhead de comunicação entre CPU e GPU tornou o desempenho inferior à versão com CPU.
 
 ## Conclusão
-Com base nos resultados obtidos, fica nítido a importância da computação paralela na otimização de algoritmos de ordenação. A capacidade de distribuir a carga de processamento entre múltiplos núcleos permite ganhos significativos de desempenho, reduzindo o tempo de execução e melhorando a eficiência computacional. Entretanto, um ponto relevante adquirido com o desenvolvimento deste trabalho foi que não necessariamente o aumento expressivo de Threads para realização de uma tarefa pode gerar um alto desempenho na execução dos algoritmos, ou seja, haverão situções, como vistas no trabalho, que este excesso pode acabar atralhando na execução e por consequência, gerar ciclos de execução mais longos do que deveriam.
 
-Dessa forma, a exploração de técnicas paralelas representa não apenas uma estratégia de aceleração e aprimorar o desempenho, mas também de haver uma análise para compreender onde serão aplicados esses sistemas, isso com a finalidade desenvolver sistemas atendam melhor as necessidades para cada cenário.
+A análise dos dados coletados evidencia que o uso de paralelismo pode trazer ganhos expressivos de desempenho em tarefas de contagem de palavras, especialmente quando o volume de dados é significativo. A versão paralela com CPU mostrou-se mais eficiente do que a sequencial em praticamente todos os cenários testados. Já a versão GPU superou todas as outras em arquivos grandes, mas não apresentou ganhos relevantes em cargas menores, devido ao overhead de setup e comunicação.
+
+Esses resultados reforçam a importância de escolher a abordagem adequada conforme o contexto da aplicação, considerando tanto o volume de dados quanto os recursos computacionais disponíveis.
 
 ## Referências
-- CORMEN, T. Algoritmos - Teoria e Prática. 3. ed. [s.l.] GEN LTC, 10DC.
-- DEVMEDIA. Threads: paralelizando tarefas com os diferentes recursos do Java. Disponível em: https://www.devmedia.com.br/threads-paralelizando-tarefas-com-os-diferentes-recursos-do-java/34309.
+
+
 
 ## Anexos
+
 Link para o projeto na plataforma GitHub:
 [Link Direto](https://github.com/MaickonBrenner/Computacao_Paralela/tree/main/Trabalho_AV3)
 
-Outra maneira: https://github.com/MaickonBrenner/Computacao_Paralela/tree/main/Trabalho_AV3
+---
