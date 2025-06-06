@@ -70,7 +70,31 @@ Esses resultados reforçam a importância de escolher a abordagem adequada confo
 
 ## Referências
 
+Claro! Aqui está um complemento que você pode adicionar ao final do relatório, logo após a seção "Anexos", como uma seção chamada **"Instruções de Execução"**. Isso servirá como um tutorial simples para qualquer pessoa que deseje executar o projeto no Eclipse.
 
+---
+
+## Instruções de Execução
+
+Para executar corretamente o projeto no Eclipse, é necessário configurar o ambiente adicionando as dependências externas (JARs) da pasta `lib/`. Siga os passos abaixo:
+
+### Configuração no Eclipse
+
+1. **Importar o Projeto:**
+
+   * Abra o Eclipse.
+   * Vá em `File > Import > Existing Projects into Workspace`.
+   * Selecione a pasta do projeto e conclua a importação.
+
+2. **Adicionar as Bibliotecas (JARs):**
+
+   * Clique com o botão direito no nome do projeto na aba `Package Explorer`.
+   * Vá em `Build Path > Configure Build Path`.
+   * Na aba **Libraries**, clique em `Add JARs...`.
+   * Navegue até a pasta `lib/` dentro do projeto.
+   * Selecione todos os arquivos `.jar` e confirme com `OK`.
+
+---
 
 ## Anexos
 
