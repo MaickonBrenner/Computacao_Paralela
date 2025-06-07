@@ -40,6 +40,11 @@ public class Controlador {
             arquivo.append("Categoria,Ocorrencias,Tempo(ms)\n");
             
             List<String> livroFormatado = formatarArquivo(livro, 10);
+            
+//            Teste:
+//            List<String> teste = List.of("Quijote Sancho Quijote", "Rocinante Quijote");
+//            int total = new ParaleloGPU().buscarPalavra(teste, "Quijote");
+//            System.out.println("Total: " + total);
 
             // Serial CPU
             for (int i = 0; i < 3; i++) {
@@ -125,6 +130,23 @@ public class Controlador {
 
         return linhasFormatadas;
     }
+    
+    
+//    public static List<String> formatarArquivo(String arquivo) {
+//        List<String> linhas = new ArrayList<>();
+//        try (BufferedReader br = new BufferedReader(new FileReader(arquivo, StandardCharsets.UTF_8))) {
+//            String linha;
+//            while ((linha = br.readLine()) != null) {
+//                // Remove pontuação, converte para minúsculas e adiciona à lista
+//                linha = linha.replaceAll("[^a-zA-Z\\s]", "").toLowerCase();
+//                linhas.add(linha);
+//            }
+//        } catch (IOException e) {
+//            System.err.println("Erro ao ler o arquivo: " + e.getMessage());
+//        }
+//        return linhas;
+//    }
+
 
 }
     

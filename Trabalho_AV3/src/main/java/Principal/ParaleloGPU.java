@@ -4,45 +4,52 @@ import org.jocl.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+
 public class ParaleloGPU {
-    
+
 	private final String kernelCL =
-		    "__kernel void busca_palavra_linha(__global const char *texto, " +
-		    "                                  __global const int *indices_linhas, " +
-		    "                                  __global int *resultado, " +
-		    "                                  __global const char *palavra, " +
-		    "                                  const int palavra_len) { " +
-		    "    int linha_id = get_global_id(0); " +
-		    "    int inicio = indices_linhas[linha_id]; " +
-		    "    int fim = indices_linhas[linha_id + 1]; " +
-		    "    int contador = 0; " +
-		    "    for (int i = inicio; i <= fim - palavra_len; i++) { " +
-		    "        int encontrou = 1; " +
-		    "        for (int j = 0; j < palavra_len; j++) { " +
-		    "            if (texto[i + j] != palavra[j]) { " +
-		    "                encontrou = 0; " +
-		    "                break; " +
-		    "            } " +
-		    "        } " +
-		    "        if (encontrou) { " +
-		    "            contador++; " +
-		    "        } " +
-		    "    } " +
-		    "    resultado[linha_id] = contador; " +
-		    "} ";
+			"__kernel void busca_palavra_linha(__global const uchar *texto, " +
+					"                                  __global const int *indices_linhas, " +
+					"                                  __global int *resultado, " +
+					"                                  __global const uchar *palavra, " +
+					"                                  const int palavra_len) { " +
+					"    int linha_id = get_global_id(0); " +
+					"    int inicio = indices_linhas[linha_id]; " +
+					"    int fim = indices_linhas[linha_id + 1]; " +
+					"    int contador = 0; " +
+					"    for (int i = inicio; i <= fim - palavra_len; i++) { " +
+					"        int encontrou = 1; " +
+					"        for (int j = 0; j < palavra_len; j++) { " +
+					"            if (texto[i + j] != palavra[j]) { " +
+					"                encontrou = 0; " +
+					"                break; " +
+					"            } " +
+					"        } " +
+					"        if (encontrou) { " +
+					"            contador++; " +
+					"        } " +
+					"    } " +
+					"    resultado[linha_id] = contador; " +
+					"}";
 
+    public int buscarPalavra(List<String> arquivoFormatado, String palavraOriginal) {
+        // Pré-processamento: remove pontuação e força minúsculas
+        List<String> textoLimpo = new ArrayList<>();
+        for (String linha : arquivoFormatado) {
+            textoLimpo.add(limparTexto(linha));
+        }
+        String palavra = limparTexto(palavraOriginal);
 
-
-    public int buscarPalavra(List<String> arquivoFormatado, String palavra) {
+        // Concatena o texto completo e define os índices das linhas
         StringBuilder textoCompleto = new StringBuilder();
         List<Integer> indicesLinhas = new ArrayList<>();
-
-        for (String linha : arquivoFormatado) {
+        for (String linha : textoLimpo) {
             indicesLinhas.add(textoCompleto.length());
-            textoCompleto.append(linha).append("\n");
+            textoCompleto.append(linha).append(" ");
         }
-        indicesLinhas.add(textoCompleto.length()); // Último índice
+        indicesLinhas.add(textoCompleto.length()); 
 
+        // Prepara buffers
         byte[] textoBytes = textoCompleto.toString().getBytes(StandardCharsets.UTF_8);
         byte[] palavraBytes = palavra.getBytes(StandardCharsets.UTF_8);
         int[] indices = indicesLinhas.stream().mapToInt(Integer::intValue).toArray();
@@ -50,10 +57,9 @@ public class ParaleloGPU {
 
         CL.setExceptionsEnabled(true);
 
-        cl_platform_id platform = null;
-        cl_device_id device = null;
+        cl_platform_id platform;
+        cl_device_id device;
 
-        // Primeiro tenta GPU, se não encontrar tenta CPU (fallback)
         try {
             platform = getPlatform(CL.CL_DEVICE_TYPE_GPU);
             device = getDevice(platform, CL.CL_DEVICE_TYPE_GPU);
@@ -67,7 +73,11 @@ public class ParaleloGPU {
 
         cl_context context = CL.clCreateContext(null, 1, new cl_device_id[]{device}, null, null, null);
         cl_command_queue queue = CL.clCreateCommandQueueWithProperties(context, device, null, null);
+        
+        System.out.println("Palavra: " + palavra + " | Tamanho (bytes): " + palavraBytes.length);
 
+
+        // Criação dos buffers
         cl_mem textoBuffer = CL.clCreateBuffer(context, CL.CL_MEM_READ_ONLY | CL.CL_MEM_COPY_HOST_PTR,
                 Sizeof.cl_char * textoBytes.length, Pointer.to(textoBytes), null);
         cl_mem indicesBuffer = CL.clCreateBuffer(context, CL.CL_MEM_READ_ONLY | CL.CL_MEM_COPY_HOST_PTR,
@@ -95,7 +105,7 @@ public class ParaleloGPU {
 
         int ocorrencias = Arrays.stream(resultado).sum();
 
-        // Libera recursos
+        // Liberação dos recursos
         CL.clReleaseMemObject(textoBuffer);
         CL.clReleaseMemObject(indicesBuffer);
         CL.clReleaseMemObject(resultadoBuffer);
@@ -108,51 +118,35 @@ public class ParaleloGPU {
         return ocorrencias;
     }
 
-    // Função que retorna plataforma com pelo menos 1 dispositivo do tipo deviceType
+    private static String limparTexto(String linha) {
+        return linha.toLowerCase()
+        			.replaceAll("[.,!?:;\"'()\\[\\]¿¡—–-]", " ")
+                    .replaceAll("\\s+", " ")
+                    .trim();
+    }
+
     private static cl_platform_id getPlatform(long deviceType) {
         int[] numPlatformsArray = new int[1];
         CL.clGetPlatformIDs(0, null, numPlatformsArray);
-        int numPlatforms = numPlatformsArray[0];
-        if (numPlatforms == 0) {
-            throw new RuntimeException("Nenhuma plataforma OpenCL encontrada.");
-        }
-        cl_platform_id[] platforms = new cl_platform_id[numPlatforms];
-        CL.clGetPlatformIDs(numPlatforms, platforms, null);
+        cl_platform_id[] platforms = new cl_platform_id[numPlatformsArray[0]];
+        CL.clGetPlatformIDs(platforms.length, platforms, null);
 
         for (cl_platform_id platform : platforms) {
             int[] numDevicesArray = new int[1];
             int res = CL.clGetDeviceIDs(platform, deviceType, 0, null, numDevicesArray);
             if (res == CL.CL_SUCCESS && numDevicesArray[0] > 0) {
-                String name = getPlatformName(platform);
-                System.out.println("Plataforma encontrada com dispositivo do tipo " +
-                    (deviceType == CL.CL_DEVICE_TYPE_GPU ? "GPU: " : "CPU: ") + name);
                 return platform;
             }
         }
         throw new RuntimeException("Nenhuma plataforma com dispositivo do tipo " +
-            (deviceType == CL.CL_DEVICE_TYPE_GPU ? "GPU" : "CPU") + " encontrada.");
+                (deviceType == CL.CL_DEVICE_TYPE_GPU ? "GPU" : "CPU") + " encontrada.");
     }
 
-    private static String getPlatformName(cl_platform_id platform) {
-        byte[] buffer = new byte[1024];
-        CL.clGetPlatformInfo(platform, CL.CL_PLATFORM_NAME, buffer.length, Pointer.to(buffer), null);
-        int i = 0;
-        while (i < buffer.length && buffer[i] != 0) i++;
-        return new String(buffer, 0, i);
-    }
-
-    // Agora getDevice recebe o deviceType para buscar dispositivo correto
     private static cl_device_id getDevice(cl_platform_id platform, long deviceType) {
         int[] numDevicesArray = new int[1];
-        int res = CL.clGetDeviceIDs(platform, deviceType, 0, null, numDevicesArray);
-        if (res != CL.CL_SUCCESS || numDevicesArray[0] == 0) {
-            throw new RuntimeException("Nenhum dispositivo OpenCL do tipo " +
-                (deviceType == CL.CL_DEVICE_TYPE_GPU ? "GPU" : "CPU") + " encontrado na plataforma.");
-        }
+        CL.clGetDeviceIDs(platform, deviceType, 0, null, numDevicesArray);
         cl_device_id[] devices = new cl_device_id[numDevicesArray[0]];
         CL.clGetDeviceIDs(platform, deviceType, devices.length, devices, null);
-        // Retorna o primeiro dispositivo encontrado
         return devices[0];
     }
-
 }
