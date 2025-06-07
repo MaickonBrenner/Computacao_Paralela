@@ -93,10 +93,15 @@ Para executar corretamente o projeto no Eclipse, é necessário configurar o amb
    * Na aba **Libraries**, clique em `Add JARs...`.
    * Navegue até a pasta `lib/` dentro do projeto.
    * Selecione todos os arquivos `.jar` e confirme com `OK`.
-
+3. **Executando o Programa:**
+   * Na pasta principal do projeto, rode o arquivo `App.java`.
+   * Quando a interface gráfica for inicializada, escolha o livro desejado.
+   * Logo após, aguarde a conclusão.
 ---
 
 ## Anexos
 
 Link para o projeto na plataforma GitHub:
 [Link Direto](https://github.com/MaickonBrenner/Computacao_Paralela/tree/main/Trabalho_AV3)
+
+Outra maneira: https://github.com/MaickonBrenner/Computacao_Paralela/tree/main/Trabalho_AV3
